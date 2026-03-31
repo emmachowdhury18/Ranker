@@ -1,12 +1,23 @@
 'use client';
 
-import { Heart, Skull } from "lucide-react";
-import { AnimatePresence, motion } from "motion/react";
+import { Heart, Info, Skull } from "lucide-react";
+import { motion } from "motion/react";
 import { Ref, useEffect, useState } from "react";
-import { DndProvider, useDrag, useDrop } from "react-dnd";
+import { useDrag, useDrop } from "react-dnd";
+import { DndProvider, MouseTransition, Preview, TouchTransition } from "react-dnd-multi-backend";
 import { HTML5Backend } from "react-dnd-html5-backend";
+import { TouchBackend } from "react-dnd-touch-backend";
+import { Modak, Montserrat } from 'next/font/google';
+  
+const title_font = Modak({weight: '400'}) 
 
-const DRAG_TYPE = "ENTRY";
+const body_font = Montserrat({weight: '700'})
+
+interface RankerItem {
+  name: string;
+  rank: number;
+  display?: boolean;
+}
 
 const category = 'State Census Population, 2025';
 
@@ -32,103 +43,29 @@ const baseRankerItems: RankerItem[] = [
   }
 ]
 
-interface RankerItem {
-  name: string;
-  rank: number;
-  display?: boolean;
-}
+const DRAG_TYPE = "ENTRY";
 
-function DraggableEntry({ entry }: { entry: RankerItem }) {
-  const [{ isDragging }, drag] = useDrag(() => ({
-    type: DRAG_TYPE,
-    item: entry,
-    collect: (monitor) => ({ isDragging: monitor.isDragging() }),
-  }));
-
-  return (
-    <div className="mt-2">
-      {entry.display ? (
-        <AnimatePresence>
-          <motion.div
-            layoutId={`item-${entry.rank}`}
-            ref={drag as unknown as Ref<HTMLDivElement>}
-            className="bg-white rounded-2xl px-6 py-4 shadow cursor-grab"
-            style={{ opacity: isDragging ? 0.4 : 1 }}>
-            <span className="font-semibold text-purple-800">{entry.name}</span>
-          </motion.div>
-        </AnimatePresence>
-      ) : (
-        <div className="bg-white rounded-2xl px-6 py-4 invisible">
-          <span className="font-semibold invisible">placeholder</span>
-        </div>
-      )}
-    </div>
-  );
-}
-
-function RankedSlot({
-  gameOver,
-  index,
-  entry,
-  onDrop
-}: {
-  gameOver: boolean;
-  index: number;
-  entry: RankerItem;
-  onDrop: (index: number, entry: RankerItem) => void
-}) {
-  const [{ isOver }, drop] = useDrop(() => ({
-    accept: DRAG_TYPE,
-    drop: (item: RankerItem) => onDrop(index, item),
-    collect: (monitor) => ({ isOver: monitor.isOver() }),
-  }));
-
-  return (
-    <div
-      ref={drop as unknown as Ref<HTMLDivElement>}>
-      {gameOver ? (
-        entry.display ? (
-          <AnimatePresence>
-            <motion.div 
-              className="bg-white rounded-2xl px-6 py-4 shadow mt-2"
-              style={{ outline: isOver ? "2px solid #7c3aed" : undefined }}
-              layoutId={`item-${entry.rank}`}>
-              <span className="font-semibold text-purple-800">{entry.name}</span>
-            </motion.div>
-          </AnimatePresence>
-        ) : (
-          <div className="bg-white rounded-2xl px-6 py-4 shadow mt-2">
-            <span className="text-gray-300">{entry.rank}</span>
-          </div>
-        )
-      ) : (
-        <div
-          className="bg-white rounded-2xl px-6 py-4 shadow mt-2"
-          style={{ outline: isOver ? "2px solid #7c3aed" : undefined }}>
-          <div>
-            {entry.display ?
-              (<span className="font-semibold text-purple-800">{entry.name}</span>) :
-              (<span className="text-gray-300">{entry.rank}</span>)}
-          </div>
-        </div>
-      )}
-    </div>
-  );
-}
+const DND_PIPELINE = {
+  backends: [
+    { id: "html5", backend: HTML5Backend, transition: MouseTransition },
+    { id: "touch", backend: TouchBackend, options: { enableMouseEvents: true }, preview: true, transition: TouchTransition },
+  ],
+};
 
 export default function Home() {
-  const [unrankedItems, setUnrankedItems] = useState<(RankerItem)[]>(() => initializeUnrankedItems());
+  const [scrambledItems, setScrambledItems] = useState<(RankerItem)[]>(() => initializeScrambledItems());
   const [rankedItems, setRankedItems] = useState<(RankerItem)[]>(() => initializeRankedItems());
   const [lives, setLives] = useState(Array(3).fill(true));
   const [gameOver, setGameOver] = useState(false);
 
   const delay = (ms: number) => new Promise(resolve => setTimeout(resolve, ms));
+  const formattedDate = new Date().toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' });
 
   useEffect(() => {
     if (gameOver) revealAll();                                                  
   }, [gameOver]);
 
-  function initializeUnrankedItems(): RankerItem[] {
+  function initializeScrambledItems(): RankerItem[] {
     const items = baseRankerItems.map(item => {
       return {...item, display: true};
     });
@@ -150,10 +87,10 @@ export default function Home() {
         next[rankIndex].display = true;
         return next;
       });
-      setUnrankedItems((prev) => {
+      setScrambledItems((prev) => {
         const next = [...prev];
-        const unrankedIndex = next.findIndex(p => p.rank === entry.rank);
-        next[unrankedIndex].display = false;
+        const scrambledIndex = next.findIndex(p => p.rank === entry.rank);
+        next[scrambledIndex].display = false;
         return next;
       });
     }
@@ -174,31 +111,38 @@ export default function Home() {
 
   async function revealAll() {
     for (let i = 1; i <= baseRankerItems.length; i++){
-      setUnrankedItems(prev => {
+      setScrambledItems(prev => {
         const next = [...prev];
-        const index = next.findIndex(p => p.rank === i);
-        next[index].display = false;
+        const scrambledIndex = next.findIndex(p => p.rank === i);
+        next[scrambledIndex].display = false;
         return next;
       })
       setRankedItems(prev => {
         const next = [...prev];
-        const index = next.findIndex(p => p.rank === i);
-        next[index].display = true;
+        const rankedIndex = next.findIndex(p => p.rank === i);
+        next[rankedIndex].display = true;
         return next;
       })
-      if (i < baseRankerItems.length) {
-        await delay(500);
-      }
+      await delay(500);
     }
   }
 
+  const allRevealed = rankedItems.every(item => item.display);
+
   return (
-    <DndProvider backend={HTML5Backend}>
-      <div className="min-h-screen w-full flex flex-col items-center pt-16 bg-purple-200">
-        <h1 className="flex flex-col items-center text-white text-4xl font-bold">
+    <DndProvider options={DND_PIPELINE}>
+      <DragPreview />
+      <div className="min-h-svh w-full flex flex-col items-center justify-center bg-purple-200">
+        <h3 className={`${title_font.className} absolute top-4 left-4 text-white font-bold`}>
+          {formattedDate}
+        </h3>
+        <div className={`${title_font.className} absolute top-4 right-4 text-white font-bold`}>
+          <Info />
+        </div>
+        <h1 className={`${title_font.className} absolute top-10 text-white text-4xl font-bold`}>
           Ranker
         </h1>
-        <h2 className="flex flex-col items-center pt-5 text-purple-800 text-2xl font-bold">
+        <h2 className={`${body_font.className} flex flex-col items-center pt-5 text-purple-800 text-xl font-bold`}>
           {category}
         </h2>
         <div className="flex flex-row items-center pt-3">
@@ -208,17 +152,19 @@ export default function Home() {
               <Skull key={i} className="text-purple-800"></Skull>)
           ))}
         </div>
-        <div className="grid grid-cols-2 gap-x-20 pt-3">
-          <div>
-            {unrankedItems.map((unkrankedEntry) => (
-              <DraggableEntry key={unkrankedEntry.rank} entry={unkrankedEntry} />
-            ))}
-          </div>
-          <div>
+        <div className={allRevealed ? "flex justify-center pt-3" : "grid grid-cols-2 gap-x-20 pt-3"}>
+          {!allRevealed && (
+            <div>
+              {scrambledItems.map((scrambledItem) => (
+                <ScrambledItem key={scrambledItem.rank} item={scrambledItem} />
+              ))}
+            </div>
+          )}
+          <motion.div layout>
             {rankedItems.map((rankedEntry, i) => (
-              <RankedSlot key={rankedEntry.rank} gameOver={gameOver} index={i} entry={rankedEntry} onDrop={handleDrop}/>
+              <RankedItem key={rankedEntry.rank} gameOver={gameOver} index={i} entry={rankedEntry} onDrop={handleDrop}/>
             ))}
-          </div>
+          </motion.div>
         </div>
         {gameOver && (
           <h2 className="flex flex-col items-center pt-5 text-purple-800 text-2xl font-bold">
@@ -227,5 +173,83 @@ export default function Home() {
         )}
       </div>
     </DndProvider>
+  );
+}
+
+
+function DragPreview() {
+  return (
+    <Preview>
+      {({ item, style }) => (
+        <div style={style} className="bg-white rounded-2xl px-6 py-4 shadow opacity-80 pointer-events-none">
+          <span className="font-semibold text-purple-800">{(item as RankerItem).name}</span>
+        </div>
+      )}
+    </Preview>
+  );
+}
+
+function ScrambledItem({ item }: { item: RankerItem }) {
+  const [{ isDragging }, drag] = useDrag(() => ({
+    type: DRAG_TYPE,
+    item: item,
+    collect: (monitor) => ({ isDragging: monitor.isDragging() }),
+  }));
+
+  return (
+    <div className="mt-2">
+      {item.display ? (
+        <motion.div
+          layoutId={`item-${item.rank}`}
+          ref={drag as unknown as Ref<HTMLDivElement>}
+          className="bg-white rounded-2xl px-6 py-4 shadow cursor-grab"
+          style={{ opacity: isDragging ? 0.4 : 1 }}>
+          <span className={`${body_font.className} font-semibold text-purple-800`}>{item.name}</span>
+        </motion.div>
+      ) : (
+        <div className="bg-white rounded-2xl px-6 py-4 invisible">
+          <span className="font-semibold invisible">placeholder</span>
+        </div>
+      )}
+    </div>
+  );
+}
+
+function RankedItem({
+  gameOver,
+  index,
+  entry,
+  onDrop
+}: {
+  gameOver: boolean;
+  index: number;
+  entry: RankerItem;
+  onDrop: (index: number, entry: RankerItem) => void
+}) {
+  const [{ isOver }, drop] = useDrop(() => ({
+    accept: DRAG_TYPE,
+    drop: (item: RankerItem) => onDrop(index, item),
+    collect: (monitor) => ({ isOver: monitor.isOver() }),
+  }));
+
+  return (
+    <div
+      ref={drop as unknown as Ref<HTMLDivElement>}
+      className="relative mt-2">
+      <div
+        className="bg-white rounded-2xl px-6 py-4 shadow"
+        style={{ outline: isOver && !entry.display ? "2px solid #7c3aed" : undefined }}>
+        {entry.display
+          ? <span className="font-semibold invisible">{entry.name}</span>
+          : <span className={`${body_font.className} text-gray-300`}>{entry.rank}</span>}
+      </div>
+      {entry.display && (
+        <motion.div
+          layoutId={`item-${entry.rank}`}
+          className="bg-white rounded-2xl px-6 py-4 shadow absolute inset-0">
+          <span className={`${body_font.className} font-semibold text-purple-800`}>{entry.name}</span>
+        </motion.div>
+      )}
+    </div>
   );
 }
