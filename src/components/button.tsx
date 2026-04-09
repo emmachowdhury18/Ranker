@@ -11,7 +11,7 @@ export default forwardRef<
   return (
     <button
       ref={ref}
-      className="inline-flex items-center gap-1 p-1 text-sm text-white cursor-pointer hover:text-white"
+      className="inline-flex items-center gap-1 p-1 text-sm text-white cursor-pointer"
       {...rest}>
       {icon}
     </button>

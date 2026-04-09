@@ -1,0 +1,29 @@
+{
+  "solutions": [
+    {
+      "category": "State Census Population, 2025", 
+      "items": [
+        {
+          "name": "Kentucky",
+          "rank": 4
+        },
+        {
+          "name": "California",
+          "rank": 1
+        },
+        {
+          "name": "Arkansas",
+          "rank": 5
+        },
+        {
+          "name": "Missouri",
+          "rank": 3
+        },
+        {
+          "name": "Florida",
+          "rank": 2
+        }
+      ]
+    }
+  ]
+}
