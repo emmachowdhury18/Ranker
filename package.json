@@ -1,14 +1,18 @@
 {
   "name": "ranker",
   "version": "0.1.0",
+  "homepage": "https://emmachowdhury18.github.io/Ranker",
   "private": true,
   "scripts": {
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "eslint"
+    "lint": "eslint",
+    "predeploy": "npm run build",
+    "deploy": "gh-pages -d build"
   },
   "dependencies": {
+    "@radix-ui/react-dialog": "^1.1.15",
     "lucide-react": "^1.0.1",
     "motion": "^12.38.0",
     "next": "16.2.0",
@@ -17,7 +21,8 @@
     "react-dnd-html5-backend": "^16.0.1",
     "react-dnd-multi-backend": "^9.0.0",
     "react-dnd-touch-backend": "^16.0.1",
-    "react-dom": "19.2.4"
+    "react-dom": "19.2.4",
+    "react-router-dom": "^7.14.0"
   },
   "devDependencies": {
     "@tailwindcss/postcss": "^4",
@@ -26,6 +31,7 @@
     "@types/react-dom": "^19",
     "eslint": "^9",
     "eslint-config-next": "16.2.0",
+    "gh-pages": "^6.3.0",
     "tailwindcss": "^4",
     "typescript": "^5"
   }

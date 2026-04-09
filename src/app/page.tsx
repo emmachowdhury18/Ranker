@@ -1,17 +1,19 @@
 'use client';
 
-import { Heart, Info, Skull } from "lucide-react";
+import { CircleQuestionMark, Heart, Skull } from "lucide-react";
 import { motion } from "motion/react";
 import { Ref, useEffect, useState } from "react";
 import { useDrag, useDrop } from "react-dnd";
 import { DndProvider, MouseTransition, Preview, TouchTransition } from "react-dnd-multi-backend";
 import { HTML5Backend } from "react-dnd-html5-backend";
 import { TouchBackend } from "react-dnd-touch-backend";
-import { Modak, Montserrat } from 'next/font/google';
-  
-const title_font = Modak({weight: '400'}) 
+import { Titan_One, Inter } from 'next/font/google';
+import Modal from "../components/modal";
+import Button from "../components/button";
 
-const body_font = Montserrat({weight: '700'})
+const title_font = Titan_One({weight: '400'})
+
+const body_font = Inter({weight: '700'})
 
 interface RankerItem {
   name: string;
@@ -21,7 +23,7 @@ interface RankerItem {
 
 const category = 'State Census Population, 2025';
 
-const baseRankerItems: RankerItem[] = [  
+const baseRankerItems: RankerItem[] = [
   {
     name: 'Kentucky',
     rank: 4
@@ -62,7 +64,7 @@ export default function Home() {
   const formattedDate = new Date().toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' });
 
   useEffect(() => {
-    if (gameOver) revealAll();                                                  
+    if (gameOver) revealAll();
   }, [gameOver]);
 
   function initializeScrambledItems(): RankerItem[] {
@@ -98,12 +100,12 @@ export default function Home() {
       setLives(prev => {
         const next = [...prev];
         const lifeIndex = next.findIndex(p => p);
-        next[lifeIndex] = false;   
-        
+        next[lifeIndex] = false;
+
         if (lifeIndex === next.length - 1){
           setGameOver(true);
         }
-        
+
         return next;
       });
     }
@@ -133,56 +135,73 @@ export default function Home() {
     <DndProvider options={DND_PIPELINE}>
       <DragPreview />
       <div className="min-h-svh w-full flex flex-col items-center justify-center bg-purple-200">
-        <h3 className={`${title_font.className} absolute top-4 left-4 text-white font-bold`}>
-          {formattedDate}
-        </h3>
-        <div className={`${title_font.className} absolute top-4 right-4 text-white font-bold`}>
-          <Info />
-        </div>
-        <h1 className={`${title_font.className} absolute top-10 text-white text-4xl font-bold`}>
-          Ranker
-        </h1>
-        <h2 className={`${body_font.className} flex flex-col items-center pt-5 text-purple-800 text-xl font-bold`}>
-          {category}
-        </h2>
-        <div className="flex flex-row items-center pt-3">
-          {lives.map((life, i) => (
-            life ? (
-              <Heart key={i} className="text-purple-800"></Heart>) : (
-              <Skull key={i} className="text-purple-800"></Skull>)
-          ))}
-        </div>
-        <div className={allRevealed ? "flex justify-center pt-3" : "grid grid-cols-2 gap-x-20 pt-3"}>
-          {!allRevealed && (
-            <div>
-              {scrambledItems.map((scrambledItem) => (
-                <ScrambledItem key={scrambledItem.rank} item={scrambledItem} />
-              ))}
-            </div>
-          )}
-          <motion.div layout>
-            {rankedItems.map((rankedEntry, i) => (
-              <RankedItem key={rankedEntry.rank} gameOver={gameOver} index={i} entry={rankedEntry} onDrop={handleDrop}/>
-            ))}
-          </motion.div>
-        </div>
-        {gameOver && (
-          <h2 className="flex flex-col items-center pt-5 text-purple-800 text-2xl font-bold">
-            GAME OVER
+          <h3 className={`${title_font.className} absolute top-5 left-5 text-white font-bold`}>
+            {formattedDate}
+          </h3>
+          <div className="absolute top-5 right-5 text-white font-bold">
+            <Modal>
+              <Modal.Button asChild>
+                <Button icon={<CircleQuestionMark />}></Button>
+              </Modal.Button>
+              <Modal.Content title="Ranker Instructions">
+                <GameInstructions />
+              </Modal.Content>
+            </Modal>
+          </div>
+          <h1 className={`${title_font.className} absolute top-15 text-white text-4xl font-bold`}>
+            Ranker
+          </h1>
+          <h2 className={`${body_font.className} flex flex-col items-center pt-5 text-purple-900 text-xl font-bold`}>
+            {category}
           </h2>
-        )}
+          <div className="flex flex-row items-center pt-3">
+            {lives.map((life, i) => (
+              life ? (
+                <Heart key={i} className="text-purple-900"></Heart>) : (
+                <Skull key={i} className="text-purple-900"></Skull>)
+            ))}
+          </div>
+          <div className={allRevealed ? "flex justify-center pt-3" : "grid grid-cols-2 gap-x-20 pt-3"}>
+            {!allRevealed && (
+              <div>
+                {scrambledItems.map((scrambledItem) => (
+                  <ScrambledItem key={scrambledItem.rank} item={scrambledItem} />
+                ))}
+              </div>
+            )}
+            <motion.div layout>
+              {rankedItems.map((rankedItem, i) => (
+                <RankedItem key={rankedItem.rank} gameOver={gameOver} index={i} item={rankedItem} onDrop={handleDrop}/>
+              ))}
+            </motion.div>
+          </div>
+          {gameOver && (
+            <h2 className="flex flex-col items-center pt-5 text-purple-900 text-2xl font-bold">
+              GAME OVER
+            </h2>
+          )}
       </div>
     </DndProvider>
   );
 }
 
 
+function GameInstructions() {
+  return (
+    <div className="mt-4 space-y-3 text-gray-600">
+      <p>Drag each item on the left to its correct spot in the ranking on the right</p>
+      <p>Be careful... You only have three lives to complete the game.</p>
+      <p>Good luck, young Ranker!</p>
+    </div>
+  );
+}
+
 function DragPreview() {
   return (
     <Preview>
       {({ item, style }) => (
         <div style={style} className="bg-white rounded-2xl px-6 py-4 shadow opacity-80 pointer-events-none">
-          <span className="font-semibold text-purple-800">{(item as RankerItem).name}</span>
+          <span className="font-semibold text-purple-900">{(item as RankerItem).name}</span>
         </div>
       )}
     </Preview>
@@ -202,13 +221,13 @@ function ScrambledItem({ item }: { item: RankerItem }) {
         <motion.div
           layoutId={`item-${item.rank}`}
           ref={drag as unknown as Ref<HTMLDivElement>}
-          className="bg-white rounded-2xl px-6 py-4 shadow cursor-grab"
+          className="bg-white rounded-2xl px-5 py-4 shadow cursor-grab"
           style={{ opacity: isDragging ? 0.4 : 1 }}>
-          <span className={`${body_font.className} font-semibold text-purple-800`}>{item.name}</span>
+          <span className={`${body_font.className} font-semibold text-purple-900`}>{item.name}</span>
         </motion.div>
       ) : (
-        <div className="bg-white rounded-2xl px-6 py-4 invisible">
-          <span className="font-semibold invisible">placeholder</span>
+        <div className="bg-white rounded-2xl px-5 py-4 invisible">
+          <span className={`${body_font.className} font-semibold invisible`}>placeholder</span>
         </div>
       )}
     </div>
@@ -218,12 +237,12 @@ function ScrambledItem({ item }: { item: RankerItem }) {
 function RankedItem({
   gameOver,
   index,
-  entry,
+  item,
   onDrop
 }: {
   gameOver: boolean;
   index: number;
-  entry: RankerItem;
+  item: RankerItem;
   onDrop: (index: number, entry: RankerItem) => void
 }) {
   const [{ isOver }, drop] = useDrop(() => ({
@@ -237,19 +256,20 @@ function RankedItem({
       ref={drop as unknown as Ref<HTMLDivElement>}
       className="relative mt-2">
       <div
-        className="bg-white rounded-2xl px-6 py-4 shadow"
-        style={{ outline: isOver && !entry.display ? "2px solid #7c3aed" : undefined }}>
-        {entry.display
-          ? <span className="font-semibold invisible">{entry.name}</span>
-          : <span className={`${body_font.className} text-gray-300`}>{entry.rank}</span>}
+        className="bg-white rounded-2xl px-5 py-4 shadow"
+        style={{ outline: isOver && !item.display ? "2px solid #7c3aed" : undefined }}>
+        {item.display
+          ? <span className={`${body_font.className} font-semibold invisible`}>{item.name}</span>
+          : <span className={`${body_font.className} text-gray-300`}>{item.rank}</span>}
       </div>
-      {entry.display && (
+      {item.display && (
         <motion.div
-          layoutId={`item-${entry.rank}`}
-          className="bg-white rounded-2xl px-6 py-4 shadow absolute inset-0">
-          <span className={`${body_font.className} font-semibold text-purple-800`}>{entry.name}</span>
+          layoutId={`item-${item.rank}`}
+          className="bg-white rounded-2xl px-5 py-4 shadow absolute inset-0">
+          <span className={`${body_font.className} font-semibold text-purple-900`}>{item.name}</span>
         </motion.div>
       )}
     </div>
   );
+
 }
