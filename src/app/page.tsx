@@ -3,6 +3,6 @@ import Ranker from '../components/Ranker';
 
 export default function Page() {
   // TO DO: populate DB & then calculate index based on day
-  const solution = db.solutions[0];
+  const solution = db.solutions[1];
   return <Ranker solution={solution} />;
 }

@@ -24,6 +24,31 @@
           "rank": 2
         }
       ]
-    }
+    },
+    {
+    "category": "US State & Territory Forest Coverage, 2016", 
+    "items": [
+      {
+        "name": "Alaska",
+        "rank": 5
+      },
+      {
+        "name": "Maine",
+        "rank": 1
+      },
+      {
+        "name": "Georgia",
+        "rank": 3
+      },
+      {
+        "name": "New Jersey",
+        "rank": 4
+      },
+      {
+        "name": "American Samoa",
+        "rank": 2
+      }
+    ]
+  }
   ]
 }
