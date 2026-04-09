@@ -72,7 +72,7 @@ export default function Ranker({ solution }: { solution: Solution }) {
   return (
     <DndProvider options={DND_PIPELINE}>
       <DragPreview />
-      <div className="min-h-svh w-full flex flex-col items-center justify-center bg-purple-200">
+      <div className="min-h-svh w-full flex flex-col items-center justify-center bg-purple-200 p-10">
         <h3 className={`${titleFont.className} absolute top-5 left-5 text-white font-bold`}>
           {formattedDate}
         </h3>
@@ -89,7 +89,7 @@ export default function Ranker({ solution }: { solution: Solution }) {
         <h1 className={`${titleFont.className} absolute top-15 text-white text-4xl font-bold`}>
           Ranker
         </h1>
-        <h2 className={`${bodyFont.className} flex flex-col items-center pt-5 text-purple-900 text-xl font-bold`}>
+        <h2 className={`${bodyFont.className} flex flex-col items-center pt-5 text-purple-900 text-l text-center font-bold`}>
           {solution.category}
         </h2>
         <div className="flex flex-row items-center pt-3">
