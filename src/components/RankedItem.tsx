@@ -32,14 +32,14 @@ export default function RankedItem({
         className="bg-white rounded-2xl px-5 h-14 flex items-center shadow"
         style={{ outline: isOver && !isRevealed ? "2px solid #7c3aed" : undefined }}>
         {isRevealed
-          ? <span className={`${bodyFont.className} font-semibold invisible`}>{item.name}</span> 
-          : <span className={`${bodyFont.className} text-gray-300`}>{item.rank}</span>}
+          ? <span className={`${bodyFont.className} font-semibold invisible justify-center text-base text-center`}>{item.name}</span> 
+          : <span className={`${bodyFont.className} text-gray-300 text-base`}>{item.rank}</span>}
       </div>
       {isRevealed && (
         <motion.div
           layoutId={isAnimated ? `item-${item.rank}` : undefined}
-          className="bg-white rounded-2xl px-5 flex items-center shadow absolute inset-0">
-          <span className={`${bodyFont.className} font-semibold text-purple-900`}>{item.name}</span>
+          className="bg-white rounded-2xl px-5 flex items-center justify-center shadow absolute inset-0">
+          <span className={`${bodyFont.className} font-semibold text-purple-900 text-base text-center`}>{item.name}</span>
         </motion.div>
       )}
     </div>

@@ -1,6 +1,6 @@
 'use client';
 
-import { CircleQuestionMark, Heart, Skull } from "lucide-react";
+import { CircleQuestionMark, Heart, Info, Link, Skull } from "lucide-react";
 import { motion } from "motion/react";
 import { useEffect, useMemo, useState } from "react";
 import { DndProvider, MouseTransition, Preview, TouchTransition } from "react-dnd-multi-backend";
@@ -14,6 +14,7 @@ import GameInstructions from "./GameInstructions";
 import RankedItem from "./RankedItem";
 import ScrambledItem from "./ScrambledItem";
 import DragPreview from "./DragPreview";
+import Source from "./Source";
 
 const DND_PIPELINE = {
   backends: [
@@ -85,11 +86,19 @@ export default function Ranker({ solution }: { solution: Solution }) {
               <GameInstructions />
             </Modal.Content>
           </Modal>
+          <Modal>
+            <Modal.Button asChild>
+              <Button icon={<Link />}></Button>
+            </Modal.Button>
+            <Modal.Content title="Source">
+              <Source source={solution.source}/>
+            </Modal.Content>
+          </Modal>
         </div>
         <h1 className={`${titleFont.className} absolute top-15 text-white text-4xl font-bold`}>
           Ranker
         </h1>
-        <h2 className={`${bodyFont.className} flex flex-col items-center pt-5 text-purple-900 text-l text-center font-bold`}>
+        <h2 className={`${bodyFont.className} flex flex-col items-center pt-5 text-purple-900 text-base text-center font-bold`}>
           {solution.category}
         </h2>
         <div className="flex flex-row items-center pt-3">

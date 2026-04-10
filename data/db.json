@@ -2,6 +2,10 @@
   "solutions": [
     {
       "category": "State Census Population, 2025", 
+      "source": {
+        "description": "",
+        "link": ""
+      },
       "items": [
         {
           "name": "Kentucky",
@@ -26,29 +30,62 @@
       ]
     },
     {
-    "category": "US State & Territory Forest Coverage, 2016", 
-    "items": [
-      {
-        "name": "Alaska",
-        "rank": 5
+      "category": "US State & Territory Forest Percent Coverage, 2016", 
+      "source": {
+        "description": "",
+        "link": ""
       },
-      {
-        "name": "Maine",
-        "rank": 1
+      "items": [
+        {
+          "name": "Alaska",
+          "rank": 5
+        },
+        {
+          "name": "Maine",
+          "rank": 1
+        },
+        {
+          "name": "Georgia",
+          "rank": 3
+        },
+        {
+          "name": "New Jersey",
+          "rank": 4
+        },
+        {
+          "name": "American Samoa",
+          "rank": 2
+        }
+      ]
+    },
+    {
+      "category": "Deadliest Animals", 
+      "source": {
+        "description": "Animals deadliest to humans, both directly and indirectly.",
+        "link": "https://en.wikipedia.org/wiki/List_of_animals_deadliest_to_humans"
       },
-      {
-        "name": "Georgia",
-        "rank": 3
-      },
-      {
-        "name": "New Jersey",
-        "rank": 4
-      },
-      {
-        "name": "American Samoa",
-        "rank": 2
-      }
-    ]
-  }
+      "items": [
+        {
+          "name": "Snakes",
+          "rank": 2
+        },
+        {
+          "name": "Mosquitoes",
+          "rank": 1
+        },
+        {
+          "name": "Bears",
+          "rank": 5
+        },
+        {
+          "name": "Elephants",
+          "rank": 4
+        },
+        {
+          "name": "Dogs",
+          "rank": 3
+        }
+      ]
+    }
   ]
 }
