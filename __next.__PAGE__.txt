@@ -1,7 +1,7 @@
 1:"$Sreact.fragment"
-2:I[12401,["/Ranker/_next/static/chunks/0dbhjjzl8qfwv.js","/Ranker/_next/static/chunks/04tx87xzygqx1.js"],"default"]
+2:I[12401,["/Ranker/_next/static/chunks/0dbhjjzl8qfwv.js","/Ranker/_next/static/chunks/08ystetiskjdz.js"],"default"]
 3:I[97367,["/Ranker/_next/static/chunks/0dbhjjzl8qfwv.js"],"OutletBoundary"]
 4:"$Sreact.suspense"
 :HL["/Ranker/_next/static/chunks/0ul74.8lic6cb.css","style"]
-0:{"rsc":["$","$1","c",{"children":[["$","$L2",null,{"solution":{"category":"US State & Territory Forest Coverage, 2016","items":[{"name":"Alaska","rank":5},{"name":"Maine","rank":1},{"name":"Georgia","rank":3},{"name":"New Jersey","rank":4},{"name":"American Samoa","rank":2}]}}],[["$","link","0",{"rel":"stylesheet","href":"/Ranker/_next/static/chunks/0ul74.8lic6cb.css","precedence":"next"}],["$","script","script-0",{"src":"/Ranker/_next/static/chunks/04tx87xzygqx1.js","async":true}]],["$","$L3",null,{"children":["$","$4",null,{"name":"Next.MetadataOutlet","children":"$@5"}]}]]}],"isPartial":false,"staleTime":300,"varyParams":null,"buildId":"IA3wit_U0yODT630sssiV"}
+0:{"rsc":["$","$1","c",{"children":[["$","$L2",null,{"solution":{"category":"Deadliest Animals","source":{"description":"Animals deadliest to humans, both directly and indirectly.","link":"https://en.wikipedia.org/wiki/List_of_animals_deadliest_to_humans"},"items":[{"name":"Snakes","rank":2},{"name":"Mosquitoes","rank":1},{"name":"Bears","rank":5},{"name":"Elephants","rank":4},{"name":"Dogs","rank":3}]}}],[["$","link","0",{"rel":"stylesheet","href":"/Ranker/_next/static/chunks/0ul74.8lic6cb.css","precedence":"next"}],["$","script","script-0",{"src":"/Ranker/_next/static/chunks/08ystetiskjdz.js","async":true}]],["$","$L3",null,{"children":["$","$4",null,{"name":"Next.MetadataOutlet","children":"$@5"}]}]]}],"isPartial":false,"staleTime":300,"varyParams":null,"buildId":"buHddN3MQtKs-6yI_f-nm"}
 5:null
