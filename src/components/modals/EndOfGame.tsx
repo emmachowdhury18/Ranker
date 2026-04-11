@@ -1,8 +1,6 @@
-import { bodyFont } from "@/src/constants";
-
 export default function EndOfGame({ win }: { win: boolean }) {
   return (
-    <div className={`${bodyFont.className} mt-4 space-y-3 justify-center text-center`}>
+    <div className="mt-4 space-y-3">
       {win 
         ?
           <img 

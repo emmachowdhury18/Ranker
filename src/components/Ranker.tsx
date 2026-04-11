@@ -2,7 +2,7 @@
 
 import { ArchiveIcon, CircleQuestionMark, Heart, Info, Skull } from "lucide-react";
 import { motion } from "motion/react";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { DndProvider, MouseTransition, TouchTransition } from "react-dnd-multi-backend";
 import { HTML5Backend } from "react-dnd-html5-backend";
 import { TouchBackend } from "react-dnd-touch-backend";
@@ -29,23 +29,18 @@ const delay = (ms: number) => new Promise(resolve => setTimeout(resolve, ms));
 
 export default function Ranker({ solution }: { solution: Solution }) {
   const [scrambledItems, setScrambledItems] = useState(new Array());
+  const [lives, setLives] = useState(Array(3).fill(true));
   const [correctDrops, setCorrectDrops] = useState<Set<number>>(new Set());
   const [gameOverReveals, setGameOverReveals] = useState<Set<number>>(new Set());
-  const [lives, setLives] = useState(Array(3).fill(true));
   const [gameOver, setGameOver] = useState(false);
-  const [endOfGameModalOpen, setEndOfGameModalOpen] = useState(false); 
+  const [endOfGameModalOpen, setEndOfGameModalOpen] = useState(false);
+  const pendingWinModal = useRef(false);
 
   const formattedDate = new Date().toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' });
-  const allRevealed = new Set([...correctDrops, ...gameOverReveals]).size === solution.items.length;
   const cardHeight = `calc((100svh - 14rem) / ${solution.items.length} - 0.5rem)`
 
-  useEffect(() => {
-    if (gameOver) revealAll();
-  }, [gameOver]);
-
-  useEffect(() => {
-    if (allRevealed) setEndOfGameModalOpen(true);                                      
-  }, [allRevealed]);
+  const allRevealed = new Set([...correctDrops, ...gameOverReveals]).size === solution.items.length;
+  const isWin = correctDrops.size === solution.items.length;
 
   useEffect(() => {
     if (solution.items && solution.items.length > 0) {
@@ -54,8 +49,11 @@ export default function Ranker({ solution }: { solution: Solution }) {
     }
   }, []); 
 
+  useEffect(() => {
+    if (gameOver) revealAll();
+  }, [gameOver]);
+
   function shuffle(array: RankerItem[]): RankerItem[] {
-    console.log(new Date().toLocaleDateString());
     for (let i = array.length - 1; i > 0; i--) {
       let j = Math.floor(Math.random() * (i + 1));
       [array[i], array[j]] = [array[j], array[i]];
@@ -65,7 +63,11 @@ export default function Ranker({ solution }: { solution: Solution }) {
 
   function handleDrop(rankIndex: number, entry: RankerItem): void {
     if ((rankIndex + 1) === entry.rank) {
-      setCorrectDrops(prev => new Set(prev).add(entry.rank));
+      setCorrectDrops(prev => {
+        const updated = new Set(prev).add(entry.rank);
+        if (updated.size === solution.items.length) pendingWinModal.current = true;
+        return updated;
+      });
     } else {
       setLives(prev => {
         const next = [...prev];
@@ -86,6 +88,8 @@ export default function Ranker({ solution }: { solution: Solution }) {
       setGameOverReveals(prev => new Set(prev).add(i));
       await delay(500);
     }
+    await delay(200);
+    setEndOfGameModalOpen(true);
   }
 
   return (
@@ -100,7 +104,7 @@ export default function Ranker({ solution }: { solution: Solution }) {
             <Modal.Button asChild>
               <Button icon={<CircleQuestionMark />}></Button>
             </Modal.Button>
-            <Modal.Content title="Instructions">
+            <Modal.Content titleClass={`${bodyFont.className} text-gray-900 text-xl`} title="Instructions">
               <GameInstructions />
             </Modal.Content>
           </Modal>
@@ -108,7 +112,7 @@ export default function Ranker({ solution }: { solution: Solution }) {
             <Modal.Button asChild>
               <Button icon={<ArchiveIcon />}></Button>
             </Modal.Button>
-            <Modal.Content title="Archive">
+            <Modal.Content titleClass={`${bodyFont.className} text-gray-900 text-xl`} title="Archive">
               <Archive />
             </Modal.Content>
           </Modal>
@@ -122,7 +126,7 @@ export default function Ranker({ solution }: { solution: Solution }) {
             <Modal.Button asChild>
               <Button icon={<Info  size={18} className="text-purple-900" />}></Button>
             </Modal.Button>
-            <Modal.Content title="Source">
+            <Modal.Content titleClass={`${bodyFont.className} text-gray-900 text-xl`} title="Source">
               <Source source={solution.source}/>
             </Modal.Content>
           </Modal>
@@ -147,7 +151,12 @@ export default function Ranker({ solution }: { solution: Solution }) {
               ))}
             </div>
           )}
-          <motion.div layout>
+          <motion.div layout onLayoutAnimationComplete={() => {
+            if (pendingWinModal.current) {
+              pendingWinModal.current = false;
+              setEndOfGameModalOpen(true);
+            }
+          }}>
             {solution.items.map((rankedItem, i) => (
               <RankedItem
                 key={rankedItem.rank}
@@ -161,13 +170,13 @@ export default function Ranker({ solution }: { solution: Solution }) {
             ))}
           </motion.div>
         </div>
-        {allRevealed && (
-          <Modal open={endOfGameModalOpen} onOpenChange={setEndOfGameModalOpen}>
-            <Modal.Content title={correctDrops.size === solution.items.length ? 'Yay! You won' : 'Better luck next time!'}>
-              <EndOfGame win={correctDrops.size === solution.items.length}/>
-            </Modal.Content>
-          </Modal>
-        )}
+        <Modal open={endOfGameModalOpen} onOpenChange={setEndOfGameModalOpen}>
+          <Modal.Content
+            titleClass={`${titleFont.className} text-purple-900 text-xl`}
+            title={isWin ? 'Yay! You won' : 'You lost :('}>
+            <EndOfGame win={isWin}/>
+          </Modal.Content>
+        </Modal>
       </div>
     </DndProvider>
   );
