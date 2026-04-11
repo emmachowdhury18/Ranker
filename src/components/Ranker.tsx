@@ -1,20 +1,22 @@
 'use client';
 
-import { CircleQuestionMark, Heart, Info, Link, Skull } from "lucide-react";
+import { ArchiveIcon, CircleQuestionMark, Heart, Info, Skull } from "lucide-react";
 import { motion } from "motion/react";
-import { useEffect, useMemo, useState } from "react";
-import { DndProvider, MouseTransition, Preview, TouchTransition } from "react-dnd-multi-backend";
+import { useEffect, useState } from "react";
+import { DndProvider, MouseTransition, TouchTransition } from "react-dnd-multi-backend";
 import { HTML5Backend } from "react-dnd-html5-backend";
 import { TouchBackend } from "react-dnd-touch-backend";
 import { bodyFont, titleFont } from "../constants";
 import { RankerItem, Solution } from "../types";
-import Modal from "./Modal";
-import Button from "./Button";
-import GameInstructions from "./GameInstructions";
+import Modal from "./ui/Modal";
+import Button from "./ui/Button";
+import GameInstructions from "./modals/GameInstructions";
 import RankedItem from "./RankedItem";
 import ScrambledItem from "./ScrambledItem";
-import DragPreview from "./DragPreview";
-import Source from "./Source";
+import DragPreview from "./ui/DragPreview";
+import Source from "./modals/Source";
+import Archive from "./modals/Archive";
+import EndOfGame from "./modals/EndOfGame";
 
 const DND_PIPELINE = {
   backends: [
@@ -26,22 +28,40 @@ const DND_PIPELINE = {
 const delay = (ms: number) => new Promise(resolve => setTimeout(resolve, ms));
 
 export default function Ranker({ solution }: { solution: Solution }) {
-  const scrambledItems = solution.items;
-  const rankedItems = useMemo(
-    () => [...solution.items].sort((a, b) => a.rank - b.rank),
-    [solution.items]
-  );
-
+  const [scrambledItems, setScrambledItems] = useState(new Array());
   const [correctDrops, setCorrectDrops] = useState<Set<number>>(new Set());
   const [gameOverReveals, setGameOverReveals] = useState<Set<number>>(new Set());
   const [lives, setLives] = useState(Array(3).fill(true));
   const [gameOver, setGameOver] = useState(false);
+  const [endOfGameModalOpen, setEndOfGameModalOpen] = useState(false); 
 
   const formattedDate = new Date().toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' });
+  const allRevealed = new Set([...correctDrops, ...gameOverReveals]).size === solution.items.length;
+  const cardHeight = `calc((100svh - 14rem) / ${solution.items.length} - 0.5rem)`
 
   useEffect(() => {
     if (gameOver) revealAll();
   }, [gameOver]);
+
+  useEffect(() => {
+    if (allRevealed) setEndOfGameModalOpen(true);                                      
+  }, [allRevealed]);
+
+  useEffect(() => {
+    if (solution.items && solution.items.length > 0) {
+      const itemsCopy = [...solution.items];
+      setScrambledItems(shuffle(itemsCopy));
+    }
+  }, []); 
+
+  function shuffle(array: RankerItem[]): RankerItem[] {
+    console.log(new Date().toLocaleDateString());
+    for (let i = array.length - 1; i > 0; i--) {
+      let j = Math.floor(Math.random() * (i + 1));
+      [array[i], array[j]] = [array[j], array[i]];
+    }
+    return array; 
+  }
 
   function handleDrop(rankIndex: number, entry: RankerItem): void {
     if ((rankIndex + 1) === entry.rank) {
@@ -68,38 +88,44 @@ export default function Ranker({ solution }: { solution: Solution }) {
     }
   }
 
-  const allRevealed = new Set([...correctDrops, ...gameOverReveals]).size === solution.items.length;
-
   return (
     <DndProvider options={DND_PIPELINE}>
-      <DragPreview />
-      <div className="min-h-svh w-full flex flex-col items-center justify-center bg-purple-200 p-10">
-        <h3 className={`${titleFont.className} absolute top-5 left-5 text-white font-bold`}>
+      <DragPreview cardHeight={cardHeight} />
+      <div className="min-h-svh w-full flex flex-col items-center bg-purple-200 pt-24 pb-8">
+        <h3 className={`${titleFont.className} absolute top-3 left-3 text-white font-bold`}>
           {formattedDate}
         </h3>
-        <div className="absolute top-5 right-5 text-white font-bold">
+        <div className="absolute top-3 right-3 text-white font-bold">
           <Modal>
             <Modal.Button asChild>
               <Button icon={<CircleQuestionMark />}></Button>
             </Modal.Button>
-            <Modal.Content title="Ranker Instructions">
+            <Modal.Content title="Instructions">
               <GameInstructions />
             </Modal.Content>
           </Modal>
           <Modal>
             <Modal.Button asChild>
-              <Button icon={<Link />}></Button>
+              <Button icon={<ArchiveIcon />}></Button>
+            </Modal.Button>
+            <Modal.Content title="Archive">
+              <Archive />
+            </Modal.Content>
+          </Modal>
+        </div>
+        <h1 className={`${titleFont.className} absolute top-10 text-white text-4xl font-bold`}>
+          Ranker
+        </h1>
+        <h2 className={`${bodyFont.className} flex flex-row items-center gap-1 pt-5 text-lg text-purple-900 text-center font-bold`}>
+          {solution.category}
+          <Modal>
+            <Modal.Button asChild>
+              <Button icon={<Info  size={18} className="text-purple-900" />}></Button>
             </Modal.Button>
             <Modal.Content title="Source">
               <Source source={solution.source}/>
             </Modal.Content>
           </Modal>
-        </div>
-        <h1 className={`${titleFont.className} absolute top-15 text-white text-4xl font-bold`}>
-          Ranker
-        </h1>
-        <h2 className={`${bodyFont.className} flex flex-col items-center pt-5 text-purple-900 text-base text-center font-bold`}>
-          {solution.category}
         </h2>
         <div className="flex flex-row items-center pt-3">
           {lives.map((life, i) => (
@@ -116,23 +142,32 @@ export default function Ranker({ solution }: { solution: Solution }) {
                   key={scrambledItem.rank}
                   item={scrambledItem}
                   isRevealed={correctDrops.has(scrambledItem.rank) || gameOverReveals.has(scrambledItem.rank)}
+                  cardHeight={cardHeight}
                 />
               ))}
             </div>
           )}
           <motion.div layout>
-            {rankedItems.map((rankedItem, i) => (
+            {solution.items.map((rankedItem, i) => (
               <RankedItem
                 key={rankedItem.rank}
                 index={i}
                 item={rankedItem}
                 isRevealed={correctDrops.has(rankedItem.rank) || gameOverReveals.has(rankedItem.rank)}
                 isAnimated={gameOverReveals.has(rankedItem.rank)}
+                cardHeight={cardHeight}
                 onDrop={handleDrop}
               />
             ))}
           </motion.div>
         </div>
+        {allRevealed && (
+          <Modal open={endOfGameModalOpen} onOpenChange={setEndOfGameModalOpen}>
+            <Modal.Content title={correctDrops.size === solution.items.length ? 'Yay! You won' : 'Better luck next time!'}>
+              <EndOfGame win={correctDrops.size === solution.items.length}/>
+            </Modal.Content>
+          </Modal>
+        )}
       </div>
     </DndProvider>
   );

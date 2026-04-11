@@ -10,6 +10,7 @@ export interface SourceInformation {
 
 export interface Solution {
   category: string;
+  date: string;
   items: RankerItem[];
   source: SourceInformation;
 }

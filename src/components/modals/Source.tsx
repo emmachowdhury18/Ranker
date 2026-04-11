@@ -1,4 +1,4 @@
-import { SourceInformation } from "../types";
+import { SourceInformation } from "../../types";
 
 export default function Source({ source }: { source: SourceInformation }) {
   return (

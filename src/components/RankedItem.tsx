@@ -10,12 +10,14 @@ export default function RankedItem({
   item,
   isRevealed,
   isAnimated,
+  cardHeight,
   onDrop
 }: {
   index: number;
   item: RankerItem;
   isRevealed: boolean;
   isAnimated: boolean;
+  cardHeight: string;
   onDrop: (index: number, entry: RankerItem) => void
 }) {
   const [{ isOver }, drop] = useDrop(() => ({
@@ -29,8 +31,8 @@ export default function RankedItem({
       ref={drop as unknown as Ref<HTMLDivElement>} // react-dnd returns a callback ref, not a RefObject
       className="relative mt-2">
       <div
-        className="bg-white rounded-2xl px-5 h-14 flex items-center shadow"
-        style={{ outline: isOver && !isRevealed ? "2px solid #7c3aed" : undefined }}>
+        className="bg-white rounded-2xl px-5 flex items-center shadow"
+        style={{ height: cardHeight, outline: isOver && !isRevealed ? "2px solid #7c3aed" : undefined }}>
         {isRevealed
           ? <span className={`${bodyFont.className} font-semibold invisible justify-center text-base text-center`}>{item.name}</span> 
           : <span className={`${bodyFont.className} text-gray-300 text-base`}>{item.rank}</span>}
