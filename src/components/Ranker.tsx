@@ -139,7 +139,7 @@ export default function Ranker() {
               </Modal>
             </div>
           </div>
-          <h2 className={`${bodyFont.className} flex flex-row items-center gap-1 pt-5 text-lg text-purple-900 text-center font-bold`}>
+          <h2 className={`${bodyFont.className} flex flex-row items-center gap-1 pt-5 text-xl text-purple-900 text-center font-bold`}>
             {solution.category}
             <Modal>
               <Modal.Button asChild>
