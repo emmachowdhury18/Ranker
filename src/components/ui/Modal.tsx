@@ -31,10 +31,10 @@ function ModalContent({
   return (
     <Dialog.Portal>
       <Dialog.Overlay className="fixed inset-0 bg-black/50" />
-      <Dialog.Content aria-describedby={title} className={`${bodyFontLight.className} fixed left-1/2 top-1/2 w-[calc(100vw-2rem)] max-w-md -translate-x-1/2 -translate-y-1/2 rounded-md bg-white p-8 text-gray-900 shadow wrap-break-word`}>
+      <Dialog.Content aria-describedby={undefined} className={`${bodyFontLight.className} fixed left-1/2 top-1/2 w-[calc(100vw-2rem)] max-w-md -translate-x-1/2 -translate-y-1/2 rounded-md bg-white p-8 text-gray-900 shadow wrap-break-word`}>
         <div className="relative flex items-center justify-center">
           <Dialog.Title className={titleClass}>{title}</Dialog.Title>
-          <Dialog.Close className="absolute right-0 text-gray-400 hover:text-gray-500 cursor-pointer">
+          <Dialog.Close className="absolute right-0 text-gray-400 hover:text-gray-500 cursor-pointer outline-none">
             <X />
           </Dialog.Close>
         </div>
