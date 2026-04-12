@@ -36,6 +36,8 @@ export default function Ranker() {
   const [gameOverReveals, setGameOverReveals] = useState<Set<number>>(new Set());
   const [gameOver, setGameOver] = useState(false);
   const [endOfGameModalOpen, setEndOfGameModalOpen] = useState(false);
+  const [instructionsOpen, setInstructionsOpen] = useState(true);
+  const [shakingRank, setShakingRank] = useState<number | null>(null);
   const pendingWinModal = useRef(false);
 
   const formattedDate = new Date().toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' });
@@ -64,15 +66,17 @@ export default function Ranker() {
     let cancelled = false;
     (async () => {
       for (let i = 1; i <= solution.items.length; i++) {
-        setGameOverReveals(prev => new Set(prev).add(i));
-        await delay(500);
+        if (!correctDrops.has(i)) {
+          setGameOverReveals(prev => new Set(prev).add(i));
+          await delay(500);
+        }
         if (cancelled) return;
       }
       await delay(200);
       if (!cancelled) setEndOfGameModalOpen(true);
     })();
     return () => { cancelled = true; };
-  }, [gameOver, solution]);
+  }, [gameOver, solution, correctDrops]);
 
   function shuffle(array: RankerItem[]): RankerItem[] {
     for (let i = array.length - 1; i > 0; i--) {
@@ -90,6 +94,8 @@ export default function Ranker() {
         return updated;
       });
     } else {
+      setShakingRank(rankIndex);
+      setTimeout(() => setShakingRank(null), 500);
       setLives(prev => {
         const next = [...prev];
         const lifeIndex = next.findIndex(p => p);
@@ -113,7 +119,7 @@ export default function Ranker() {
             {formattedDate}
           </h3>
           <div className="absolute top-3 right-3 text-white font-bold">
-            <Modal>
+            <Modal open={instructionsOpen} onOpenChange={setInstructionsOpen}>
               <Modal.Button asChild>
                 <Button icon={<CircleQuestionMark />}></Button>
               </Modal.Button>
@@ -177,6 +183,7 @@ export default function Ranker() {
                   item={rankedItem}
                   isRevealed={correctDrops.has(rankedItem.rank) || gameOverReveals.has(rankedItem.rank)}
                   isAnimated={gameOverReveals.has(rankedItem.rank)}
+                  isShaking={shakingRank === i}
                   cardHeight={cardHeight}
                   onDrop={handleDrop}
                 />

@@ -10,6 +10,7 @@ export default function RankedItem({
   item,
   isRevealed,
   isAnimated,
+  isShaking,
   cardHeight,
   onDrop
 }: {
@@ -17,6 +18,7 @@ export default function RankedItem({
   item: RankerItem;
   isRevealed: boolean;
   isAnimated: boolean;
+  isShaking: boolean;
   cardHeight: string;
   onDrop: (index: number, entry: RankerItem) => void
 }) {
@@ -30,13 +32,15 @@ export default function RankedItem({
     <div
       ref={drop as unknown as Ref<HTMLDivElement>} // react-dnd returns a callback ref, not a RefObject
       className="relative mt-2">
-      <div
+      <motion.div
+        animate={isShaking ? { x: [0, -8, 8, -8, 8, 0] } : { x: 0 }}
+        transition={{ duration: 0.4, ease: "easeInOut" }}
         className="bg-white rounded-2xl px-5 flex items-center shadow"
         style={{ height: cardHeight, outline: isOver && !isRevealed ? "2px solid #7c3aed" : undefined }}>
         {isRevealed
-          ? <span className={`${bodyFont.className} font-semibold invisible justify-center text-base text-center`}>{item.name}</span> 
+          ? <span className={`${bodyFont.className} font-semibold invisible justify-center text-base text-center`}>{item.name}</span>
           : <span className={`${bodyFont.className} text-gray-300 text-base`}>{item.rank}</span>}
-      </div>
+      </motion.div>
       {isRevealed && (
         <motion.div
           layoutId={isAnimated ? `item-${item.rank}` : undefined}
