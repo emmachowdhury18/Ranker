@@ -36,7 +36,7 @@ export default function RankedItem({
         animate={isShaking ? { x: [0, -8, 8, -8, 8, 0] } : { x: 0 }}
         transition={{ duration: 0.4, ease: "easeInOut" }}
         className="bg-white rounded-2xl px-5 flex items-center shadow"
-        style={{ height: cardHeight, outline: isOver && !isRevealed ? "2px solid #7c3aed" : undefined }}>
+        style={{ height: cardHeight, outline: isOver && !isRevealed ? "2px solid #581c87" : undefined }}>
         {isRevealed
           ? <span className={`${bodyFont.className} font-semibold invisible justify-center text-base text-center`}>{item.name}</span>
           : <span className={`${bodyFont.className} text-gray-300 text-base`}>{item.rank}</span>}

@@ -114,31 +114,31 @@ export default function Ranker() {
     solution && (
       <DndProvider options={DND_PIPELINE}>
         <DragPreview cardHeight={cardHeight} />
-        <div className="min-h-svh w-full flex flex-col items-center bg-purple-200 pt-24 pb-8">
-          <h3 className={`${titleFont.className} absolute top-3 left-3 text-white font-bold`}>
-            {formattedDate}
-          </h3>
-          <div className="absolute top-3 right-3 text-white font-bold">
-            <Modal open={instructionsOpen} onOpenChange={setInstructionsOpen}>
-              <Modal.Button asChild>
-                <Button icon={<CircleQuestionMark />}></Button>
-              </Modal.Button>
-              <Modal.Content titleClass={`${bodyFont.className} text-gray-900 text-xl`} title="Instructions">
-                <GameInstructions />
-              </Modal.Content>
-            </Modal>
-            <Modal>
-              <Modal.Button asChild>
-                <Button icon={<ArchiveIcon />}></Button>
-              </Modal.Button>
-              <Modal.Content titleClass={`${bodyFont.className} text-gray-900 text-xl`} title="Archive">
-                <Archive />
-              </Modal.Content>
-            </Modal>
+        <div className="min-h-svh w-full flex flex-col items-center bg-purple-200 pb-8">
+          <div className="w-full flex items-center justify-between px-3 pt-3 text-white">
+            <div className="flex flex-col">
+              <h1 className={`${titleFont.className} text-xl font-bold`}>Ranker</h1>
+              <h3 className={`${titleFont.className} text-sm`}>{formattedDate}</h3>
+            </div>
+            <div className="flex items-center gap-1 font-bold">
+              <Modal open={instructionsOpen} onOpenChange={setInstructionsOpen}>
+                <Modal.Button asChild>
+                  <Button icon={<CircleQuestionMark />}></Button>
+                </Modal.Button>
+                <Modal.Content titleClass={`${bodyFont.className} text-gray-900 text-xl`} title="Instructions">
+                  <GameInstructions />
+                </Modal.Content>
+              </Modal>
+              <Modal>
+                <Modal.Button asChild>
+                  <Button icon={<ArchiveIcon />}></Button>
+                </Modal.Button>
+                <Modal.Content titleClass={`${bodyFont.className} text-gray-900 text-xl`} title="Archive">
+                  <Archive />
+                </Modal.Content>
+              </Modal>
+            </div>
           </div>
-          <h1 className={`${titleFont.className} absolute top-10 text-white text-4xl font-bold`}>
-            Ranker
-          </h1>
           <h2 className={`${bodyFont.className} flex flex-row items-center gap-1 pt-5 text-lg text-purple-900 text-center font-bold`}>
             {solution.category}
             <Modal>

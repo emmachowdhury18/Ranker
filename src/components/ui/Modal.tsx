@@ -12,8 +12,9 @@ export default function Modal({
   onOpenChange?: (open: boolean) => void;
   children: ReactNode;
 }) {
+  const controlled = open !== undefined ? { open, onOpenChange } : {};
   return (
-    <Dialog.Root open={open} onOpenChange={onOpenChange}>
+    <Dialog.Root {...controlled}>
       {children}
     </Dialog.Root>
   );
