@@ -185,7 +185,7 @@ export const solutions: Solution[] = [
       }
     ]
   },
-    {
+  {
     category: "Languages by Native Speakers", 
     date: "4/15/2026",
     source: {
@@ -216,8 +216,128 @@ export const solutions: Solution[] = [
     ]
   },
   {
-    category: "English Words by Frequency", 
+    category: "Countries by Population", 
     date: "4/16/2026",
+    source: {
+      description: "Countries by Population, Highest to Lowest",
+      link: "https://en.wikipedia.org/wiki/List_of_countries_and_dependencies_by_population"
+    },
+    items: [
+      {
+        name: "Indonesia",
+        rank: 1
+      },
+      {
+        name: "Bangladesh",
+        rank: 2
+      },
+      {
+        name: "North Korea",
+        rank: 3
+      },
+      {
+        name: "Benin",
+        rank: 4
+      },
+      {
+        name: "Greece",
+        rank: 5
+      }
+    ]
+  },
+  {
+    category: "US Presidents by Height", 
+    date: "4/17/2026",
+    source: {
+      description: "US Presidents by Height, Tallest to Shortest",
+      link: "https://en.wikipedia.org/wiki/Heights_of_presidents_and_presidential_candidates_of_the_United_States"
+    },
+    items: [
+      {
+        name: "Abraham Lincoln",
+        rank: 1
+      },
+      {
+        name: "Bill Clinton",
+        rank: 2
+      },
+      {
+        name: "Barack Obama",
+        rank: 3
+      },
+      {
+        name: "Joe Biden",
+        rank: 4
+      },
+      {
+        name: "Jimmy Carter",
+        rank: 5
+      }
+    ]
+  },
+  {
+    category: "US Presidents by Height", 
+    date: "4/18/2026",
+    source: {
+      description: "US Presidents by Height, Tallest to Shortest",
+      link: "https://en.wikipedia.org/wiki/Heights_of_presidents_and_presidential_candidates_of_the_United_States"
+    },
+    items: [
+      {
+        name: "Abraham Lincoln",
+        rank: 1
+      },
+      {
+        name: "Bill Clinton",
+        rank: 2
+      },
+      {
+        name: "Barack Obama",
+        rank: 3
+      },
+      {
+        name: "Joe Biden",
+        rank: 4
+      },
+      {
+        name: "Jimmy Carter",
+        rank: 5
+      }
+    ]
+  },
+  {
+    category: "Countries by Wine Production", 
+    date: "4/19/2026",
+    source: {
+      description: "Countries by Wine Production, Most to Least",
+      link: "https://en.wikipedia.org/wiki/List_of_wine-producing_regions"
+    },
+    items: [
+      {
+        name: "China",
+        rank: 1
+      },
+      {
+        name: "Portugal",
+        rank: 2
+      },
+      {
+        name: "Russia",
+        rank: 3
+      },
+      {
+        name: "New Zealand",
+        rank: 4
+      },
+      {
+        name: "Japan",
+        rank: 5
+      }
+    ]
+  },
+  {
+    category: "English Words by Frequency", 
+    date: "4/20/2026",
     source: {
       description: "Words by Frequency in Written English, Most Frequent to Least",
       link: "https://en.wikipedia.org/wiki/Most_common_words_in_English"

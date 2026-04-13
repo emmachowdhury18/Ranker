@@ -5,8 +5,8 @@ import { Button } from "../ui/button";
 
 export default function GameInstructionsModal({ open, onOpenChange } : {
   open: boolean;
-  onOpenChange: (open: boolean) => void; }){
-  
+  onOpenChange: (open: boolean) => void; })
+{
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogTrigger asChild>

@@ -7,8 +7,8 @@ import { Button } from "../ui/button";
 export default function Source({ open, onOpenChange, source }: {   
   open: boolean;
   onOpenChange: (open: boolean) => void;
-  source: SourceInformation }) {
-
+  source: SourceInformation }) 
+{
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogTrigger asChild>

@@ -8,8 +8,7 @@ import { useState } from "react";
 export default function ArchiveModal({ open, onOpenChange, onDateSelect } : {
   open: boolean;
   onOpenChange: (open: boolean) => void; 
-  onDateSelect: (date: Date) => void;
-})
+  onDateSelect: (date: Date) => void; })
 {
   const [date, setDate] = useState<Date | undefined>(new Date())
   
