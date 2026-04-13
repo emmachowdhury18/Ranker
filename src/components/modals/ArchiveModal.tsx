@@ -15,7 +15,7 @@ export default function ArchiveModal({ open, onOpenChange, onDateSelect } : {
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogTrigger asChild>
-        <Button variant="ghost" size="icon" className="[&_svg]:size-6 focus-visible:ring-0 hover:bg-transparent hover:text-purple-900 cursor-pointer">
+        <Button variant="ghost" size="icon" className="[&_svg]:size-6 focus-visible:ring-0 hover:bg-transparent hover:text-white cursor-pointer">
           <Archive className="size-6"/>
         </Button>
       </DialogTrigger>
@@ -32,7 +32,7 @@ export default function ArchiveModal({ open, onOpenChange, onDateSelect } : {
             selected={date}
             onSelect={(date) => { if (date) { setDate(date); onDateSelect(date); } }}
             className={`${bodyFont.className} text-gray-700 rounded-lg [--cell-size:--spacing(10)] md:[--cell-size:--spacing(12)]`}
-            captionLayout="dropdown"
+            captionLayout="label"
           />
         </div>
       </DialogContent>

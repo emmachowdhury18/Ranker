@@ -12,7 +12,7 @@ export default function Source({ open, onOpenChange, source }: {
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogTrigger asChild>
-        <Button variant="ghost" size="icon" className="[&_svg]:size-5">
+        <Button variant="ghost" size="icon" className="[&_svg]:size-5 focus-visible:ring-0 hover:bg-transparent hover:text-purple-900 cursor-pointer">
           <Info />
         </Button>
       </DialogTrigger>
