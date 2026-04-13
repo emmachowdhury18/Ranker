@@ -22,7 +22,7 @@ export default function ScrambledItem({ item, isRevealed }: { item: RankerItem; 
           <span className={`${bodyFont.className} font-semibold text-purple-900 text-base text-center`}>{item.name}</span>
         </motion.div>
       ) : (
-        <div aria-hidden />
+        <div aria-hidden className="h-16" />
       )}
     </div>
   );

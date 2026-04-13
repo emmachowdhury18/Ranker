@@ -10,7 +10,7 @@ export default function GameInstructionsModal({ open, onOpenChange } : {
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogTrigger asChild>
-        <Button variant="ghost" size="icon" className="[&_svg]:size-6">
+        <Button variant="ghost" size="icon" className="[&_svg]:size-6 focus-visible:ring-0 hover:bg-transparent hover:text-purple-900 cursor-pointer">
           <CircleQuestionMark className="size-6"/>
         </Button>
       </DialogTrigger>
