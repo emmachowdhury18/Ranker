@@ -11,7 +11,6 @@ export default function RankedItem({
   isRevealed,
   isAnimated,
   isShaking,
-  cardHeight,
   onDrop
 }: {
   index: number;
@@ -19,7 +18,6 @@ export default function RankedItem({
   isRevealed: boolean;
   isAnimated: boolean;
   isShaking: boolean;
-  cardHeight: string;
   onDrop: (index: number, entry: RankerItem) => void
 }) {
   const [{ isOver }, drop] = useDrop(() => ({
@@ -35,8 +33,8 @@ export default function RankedItem({
       <motion.div
         animate={isShaking ? { x: [0, -8, 8, -8, 8, 0] } : { x: 0 }}
         transition={{ duration: 0.4, ease: "easeInOut" }}
-        className="bg-white rounded-2xl px-5 flex items-center shadow"
-        style={{ height: cardHeight, outline: isOver && !isRevealed ? "2px solid #581c87" : undefined }}>
+        className="bg-white rounded-2xl px-5 flex items-center shadow h-16"
+        style={{ outline: isOver && !isRevealed ? "2px solid #581c87" : undefined }}>
         {isRevealed
           ? <span className={`${bodyFont.className} font-semibold invisible justify-center text-base text-center`}>{item.name}</span>
           : <span className={`${bodyFont.className} text-gray-300 text-base`}>{item.rank}</span>}
@@ -44,7 +42,7 @@ export default function RankedItem({
       {isRevealed && (
         <motion.div
           layoutId={isAnimated ? `item-${item.rank}` : undefined}
-          className="bg-white rounded-2xl px-5 flex items-center justify-center shadow absolute inset-0">
+          className="bg-white rounded-2xl px-5 flex items-center justify-center shadow absolute inset-0 h-16">
           <span className={`${bodyFont.className} font-semibold text-purple-900 text-base text-center`}>{item.name}</span>
         </motion.div>
       )}

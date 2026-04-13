@@ -2,36 +2,6 @@ import { Solution } from "@/src/types"
 
 export const solutions: Solution[] = [
   {
-    category: "State Census Population, 2025",
-    date: "4/8/2026",
-    source: {
-      description: "U.S. States by Census Population, 2025",
-      link: "https://en.wikipedia.org/wiki/List_of_U.S._states_and_territories_by_population"
-    },
-    items: [
-      {
-        name: "California",
-        rank: 1
-      },
-      {
-        name: "Florida",
-        rank: 2
-      },
-      {
-        name: "Missouri",
-        rank: 3
-      },
-      {
-        name: "Kentucky",
-        rank: 4
-      },
-      {
-        name: "Arkansas",
-        rank: 5
-      }
-    ]
-  },
-  {
     category: "US State & Territory Forest Percent Coverage, 2016", 
     date: "4/9/2026",
     source: {
@@ -65,7 +35,7 @@ export const solutions: Solution[] = [
     category: "Deadliest Animals", 
     date: "4/10/2026",
     source: {
-      description: "Animals deadliest to humans, both directly and indirectly",
+      description: "Animals deadliest to humans",
       link: "https://en.wikipedia.org/wiki/List_of_animals_deadliest_to_humans"
     },
     items: [
@@ -92,10 +62,36 @@ export const solutions: Solution[] = [
       {
         name: "Big Cats",
         rank: 6
+      }
+    ]
+  },
+  {
+    category: "State Census Population, 2025",
+    date: "4/11/2026",
+    source: {
+      description: "U.S. States by Census Population 2025, Greatest to Least",
+      link: "https://en.wikipedia.org/wiki/List_of_U.S._states_and_territories_by_population"
+    },
+    items: [
+      {
+        name: "California",
+        rank: 1
       },
       {
-        name: "Bears",
-        rank: 7
+        name: "Florida",
+        rank: 2
+      },
+      {
+        name: "Missouri",
+        rank: 3
+      },
+      {
+        name: "Kentucky",
+        rank: 4
+      },
+      {
+        name: "Arkansas",
+        rank: 5
       }
     ]
   },
@@ -103,7 +99,7 @@ export const solutions: Solution[] = [
     category: "Islands by Area", 
     date: "4/12/2026",
     source: {
-      description: "Islands by Area",
+      description: "Islands by Area, Greatest to Least",
       link: "https://en.wikipedia.org/wiki/List_of_islands_by_area"
     },
     items: [
@@ -112,28 +108,20 @@ export const solutions: Solution[] = [
         rank: 1
       },
       {
-        name: "Borneo",
+        name: "Madagascar",
         rank: 2
       },
       {
-        name: "Madagascar",
+        name: "Great Britain",
         rank: 3
       },
       {
-        name: "Great Britain",
+        name: "Tasmania",
         rank: 4
       },
       {
-        name: "Sri Lanka",
-        rank: 5
-      },
-      {
-        name: "Tasmania",
-        rank: 6
-      },
-      {
         name: "Taiwan",
-        rank: 7
+        rank: 5
       }
     ]
   },
@@ -141,7 +129,7 @@ export const solutions: Solution[] = [
     category: "Cities by Elevation", 
     date: "4/13/2026",
     source: {
-      description: "Cities by Elevation",
+      description: "Cities by Elevation, Highest to Lowest",
       link: "https://en.wikipedia.org/wiki/List_of_cities_by_elevation"
     },
     items: [
@@ -154,24 +142,16 @@ export const solutions: Solution[] = [
         rank: 2
       },
       {
-        name: "Nairobi, Kenya",
+        name: "Salt Lake City, US",
         rank: 3
       },
       {
-        name: "Salt Lake City, US",
+        name: "Kathmandu, Nepal",
         rank: 4
       },
       {
-        name: "Kathmandu, Nepal",
-        rank: 5
-      },
-      {
-        name: "Tehran, Iran",
-        rank: 6
-      },
-      {
         name: "Jericho, Palestine",
-        rank: 7
+        rank: 5
       }
     ]
   },
@@ -179,7 +159,7 @@ export const solutions: Solution[] = [
     category: "Countries by Land Border Length", 
     date: "4/14/2026",
     source: {
-      description: "Countries by Total Length of Land Borders",
+      description: "Countries by Total Length of Land Borders, Longest to Shortest",
       link: "https://en.wikipedia.org/wiki/List_of_countries_and_territories_by_number_of_land_borders"
     },
     items: [
@@ -202,14 +182,6 @@ export const solutions: Solution[] = [
       {
         name: "Ukraine",
         rank: 5
-      },
-      {
-        name: "Mexico",
-        rank: 6
-      },
-      {
-        name: "Nigeria",
-        rank: 7
       }
     ]
   },
@@ -217,7 +189,7 @@ export const solutions: Solution[] = [
     category: "Languages by Native Speakers", 
     date: "4/15/2026",
     source: {
-      description: "Languages by Number of Native Speakers",
+      description: "Languages by Number of Native Speakers, Most to Least",
       link: "https://en.wikipedia.org/wiki/List_of_languages_by_number_of_native_speakers"
     },
     items: [
@@ -238,16 +210,8 @@ export const solutions: Solution[] = [
         rank: 4
       },
       {
-        name: "Telugu",
-        rank: 5
-      },
-      {
         name: "Korean",
-        rank: 6
-      },
-      {
-        name: "Indonesian",
-        rank: 7
+        rank: 5
       }
     ]
   },
@@ -255,7 +219,7 @@ export const solutions: Solution[] = [
     category: "English Words by Frequency", 
     date: "4/16/2026",
     source: {
-      description: "Words by Frequency in Written English",
+      description: "Words by Frequency in Written English, Most Frequent to Least",
       link: "https://en.wikipedia.org/wiki/Most_common_words_in_English"
     },
     items: [
@@ -278,10 +242,6 @@ export const solutions: Solution[] = [
       {
         name: "but",
         rank: 5
-      },
-      {
-        name: "they",
-        rank: 6
       }
     ]
   }
