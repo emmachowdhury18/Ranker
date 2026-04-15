@@ -5,8 +5,8 @@ import { bodyFont } from "../../constants";
 export default function DragPreview() {
   return (
     <Preview>
-      {({ item }) => (
-        <div className="bg-white h-16 rounded-2xl px-5 flex items-center shadow opacity-80 pointer-events-none">
+      {({ item, style }) => (
+        <div style={style} className="bg-white h-16 w-[calc(50vw-3.75rem)] rounded-2xl px-5 flex items-center shadow opacity-80 pointer-events-none">
           <span className={`${bodyFont.className} font-semibold text-purple-300 text-base text-center`}>{(item as RankerItem).name}</span>
         </div>
       )}
