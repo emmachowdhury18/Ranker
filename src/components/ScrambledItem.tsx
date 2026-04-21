@@ -17,7 +17,7 @@ export default function ScrambledItem({ item, isRevealed }: { item: RankerItem; 
         <motion.div
           layoutId={`item-${item.rank}`}
           ref={drag as unknown as Ref<HTMLDivElement>} // react-dnd returns a callback ref, not a RefObject
-          className="bg-white rounded-2xl px-5 flex items-center shadow cursor-grab justify-center h-16"
+          className="bg-white rounded-2xl px-5 w-[calc(50vw-3.75rem)] md:max-w-xs flex items-center shadow cursor-grab justify-center h-16"
           style={{ opacity: isDragging ? 0.4 : 1 }}>
           <span className={`${bodyFont.className} font-semibold text-purple-900 text-base text-center`}>{item.name}</span>
         </motion.div>

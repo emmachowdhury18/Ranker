@@ -169,7 +169,7 @@ export default function Ranker() {
               <div>
                 {scrambledItems.map((scrambledItem) => (
                   <ScrambledItem
-                    key={scrambledItem.rank}
+                    key={`${solution.date}-${scrambledItem.rank}`}
                     item={scrambledItem}
                     isRevealed={correctDrops.has(scrambledItem.rank) || gameOverReveals.has(scrambledItem.rank)}
                   />

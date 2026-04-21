@@ -58,10 +58,6 @@ export const solutions: Solution[] = [
       {
         name: "Elephants",
         rank: 5
-      },
-      {
-        name: "Big Cats",
-        rank: 6
       }
     ]
   },
@@ -361,6 +357,96 @@ export const solutions: Solution[] = [
       },
       {
         name: "but",
+        rank: 5
+      }
+    ]
+  },
+    {
+    category: "US States by Median Home Price", 
+    date: "4/21/2026",
+    source: {
+      description: "US States by Median Home Price",
+      link: "https://en.wikipedia.org/wiki/List_of_U.S._states_by_median_home_price"
+    },
+    items: [
+      {
+        name: "Hawaii",
+        rank: 1
+      },
+      {
+        name: "Utah",
+        rank: 2
+      },
+      {
+        name: "New York",
+        rank: 3
+      },
+      {
+        name: "Wyoming",
+        rank: 4
+      },
+      {
+        name: "South Carolina",
+        rank: 5
+      }
+    ]
+  },
+  {
+    category: "Countries by Beer Consumption Per Capita", 
+    date: "4/22/2026",
+    source: {
+      description: "Countries by Beer Consumption Per Capita",
+      link: "https://en.wikipedia.org/wiki/List_of_countries_by_beer_consumption_per_capita"
+    },
+    items: [
+      {
+        name: "Czech Republic",
+        rank: 1
+      },
+      {
+        name: "Germany",
+        rank: 2
+      },
+      {
+        name: "Namibia",
+        rank: 3
+      },
+      {
+        name: "Ireland",
+        rank: 4
+      },
+      {
+        name: "United States",
+        rank: 5
+      }
+    ]
+  },
+  {
+    category: "Horror Films by Worldwide Gross", 
+    date: "4/23/2026",
+    source: {
+      description: "Horror Films by Worldwide Gross",
+      link: "https://en.wikipedia.org/wiki/List_of_highest-grossing_horror_films"
+    },
+    items: [
+      {
+        name: "It",
+        rank: 1
+      },
+      {
+        name: "World War Z",
+        rank: 2
+      },
+      {
+        name: "The Exorcist",
+        rank: 3
+      },
+      {
+        name: "The Conjuring",
+        rank: 4
+      },
+      {
+        name: "Get Out",
         rank: 5
       }
     ]
